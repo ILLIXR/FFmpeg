@@ -2849,7 +2849,7 @@ static int vulkan_export_to_cuda(AVHWFramesContext *hwfc,
                 .offset = 0,
                 .arrayDesc = {
                     .Depth = 0,
-                    .Format = cufmt,
+                    .Format = CU_AD_FORMAT_UNSIGNED_INT32,
                     .NumChannels = 1 + ((planes == 2) && i),
                     .Flags = 0,
                 },
@@ -3623,6 +3623,11 @@ static int vulkan_transfer_data_to_cuda(AVHWFramesContext *hwfc, AVFrame *dst,
 
         cpy.WidthInBytes = w * desc->comp[i].step;
         cpy.Height = h;
+
+        err = CHECK_CU(cu->cuStreamSynchronize(cuda_dev->stream));
+
+        if (err < 0)
+            goto fail;
 
         err = CHECK_CU(cu->cuMemcpy2DAsync(&cpy, cuda_dev->stream));
         if (err < 0)
