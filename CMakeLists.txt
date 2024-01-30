@@ -20,6 +20,17 @@ project(ILLIXR_ffmpeg VERSION 6.1)  # mirror the FFmpeg version this is based on
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PkgConfig REQUIRED)
+option(BUILD_PARALLEL_LEVEL "Number of parallel build jobs")
+if(NOT BUILD_PARALLEL_LEVEL)
+    include(ProcessorCount)
+    ProcessorCount(N)
+    if(N GREATER 3)
+        math(EXPR N "${N} - 2")
+        set(BUILD_PARALLEL_LEVEL ${N})
+    else()
+        set(BUILD_PARALLEL_LEVEL 1)
+    endif()
+endif()
 # add any custom module paths for finding cmake and pkg-config files
 set(CMAKE_MODULE_PATH "${CMAKE_INSTALL_PREFIX}/lib/cmake ${CMAKE_INSTALL_PREFIX}/share/cmake ${CMAKE_MODULE_PATH}")
 set(ENV{PKG_CONFIG_PATH} "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig:${CMAKE_INSTALL_PREFIX}/share/pkgconfig")
@@ -194,7 +205,7 @@ endif()
 # add build target, with both build and install
 add_custom_target(FFMPEG
                   ALL
-                  COMMAND make install -j30
+                  COMMAND make install -j${BUILD_PARALLEL_LEVEL}
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # custom clean command since ffmpeg does not use cmake
