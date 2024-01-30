@@ -121,7 +121,6 @@ pkg_check_modules(dav1d REQUIRED dav1d>=0.5.0)
 pkg_check_modules(libdrm REQUIRED libdrm)
 pkg_check_modules(freetype2 REQUIRED freetype2)
 pkg_check_modules(fribidi REQUIRED fribidi)
-pkg_check_modules(libiec61883 REQUIRED libiec61883)
 pkg_check_modules(jack REQUIRED jack)
 pkg_check_modules(libmodplug REQUIRED libmodplug)
 pkg_check_modules(libopenjp2 REQUIRED libopenjp2>=2.1.0)
@@ -176,7 +175,7 @@ if (NOT yasm_FOUND)
 endif()
 
 # have to manually run configure
-execute_process(COMMAND ./configure --disable-static --enable-shared --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdav1d --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpl --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxml2 --enable-libzimg --enable-nvdec --enable-nvenc --enable-opengl --enable-vulkan --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
+execute_process(COMMAND ./configure --disable-static --enable-shared --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdav1d --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpl --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxml2 --enable-libzimg --enable-nvdec --enable-nvenc --enable-opengl --enable-vulkan --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                 RESULT_VARIABLE PROC_RES
                 )
