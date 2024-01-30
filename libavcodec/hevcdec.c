@@ -86,8 +86,8 @@ static void pic_arrays_free(HEVCContext *s)
     av_freep(&s->sh.size);
     av_freep(&s->sh.offset);
 
-    av_buffer_pool_uninit(&s->tab_mvf_pool);
-    av_buffer_pool_uninit(&s->rpl_tab_pool);
+    ff_refstruct_pool_uninit(&s->tab_mvf_pool);
+    ff_refstruct_pool_uninit(&s->rpl_tab_pool);
 }
 
 /* allocate arrays that depend on frame dimensions */
@@ -133,10 +133,8 @@ static int pic_arrays_init(HEVCContext *s, const HEVCSPS *sps)
     if (!s->horizontal_bs || !s->vertical_bs)
         goto fail;
 
-    s->tab_mvf_pool = av_buffer_pool_init(min_pu_size * sizeof(MvField),
-                                          av_buffer_allocz);
-    s->rpl_tab_pool = av_buffer_pool_init(ctb_count * sizeof(RefPicListTab),
-                                          av_buffer_allocz);
+    s->tab_mvf_pool = ff_refstruct_pool_alloc(min_pu_size * sizeof(MvField), 0);
+    s->rpl_tab_pool = ff_refstruct_pool_alloc(ctb_count * sizeof(RefPicListTab), 0);
     if (!s->tab_mvf_pool || !s->rpl_tab_pool)
         goto fail;
 
@@ -400,6 +398,7 @@ static enum AVPixelFormat get_format(HEVCContext *s, const HEVCSPS *sps)
 {
 #define HWACCEL_MAX (CONFIG_HEVC_DXVA2_HWACCEL + \
                      CONFIG_HEVC_D3D11VA_HWACCEL * 2 + \
+                     CONFIG_HEVC_D3D12VA_HWACCEL + \
                      CONFIG_HEVC_NVDEC_HWACCEL + \
                      CONFIG_HEVC_VAAPI_HWACCEL + \
                      CONFIG_HEVC_VIDEOTOOLBOX_HWACCEL + \
@@ -416,6 +415,9 @@ static enum AVPixelFormat get_format(HEVCContext *s, const HEVCSPS *sps)
 #if CONFIG_HEVC_D3D11VA_HWACCEL
         *fmt++ = AV_PIX_FMT_D3D11VA_VLD;
         *fmt++ = AV_PIX_FMT_D3D11;
+#endif
+#if CONFIG_HEVC_D3D12VA_HWACCEL
+        *fmt++ = AV_PIX_FMT_D3D12;
 #endif
 #if CONFIG_HEVC_VAAPI_HWACCEL
         *fmt++ = AV_PIX_FMT_VAAPI;
@@ -440,6 +442,9 @@ static enum AVPixelFormat get_format(HEVCContext *s, const HEVCSPS *sps)
 #if CONFIG_HEVC_D3D11VA_HWACCEL
         *fmt++ = AV_PIX_FMT_D3D11VA_VLD;
         *fmt++ = AV_PIX_FMT_D3D11;
+#endif
+#if CONFIG_HEVC_D3D12VA_HWACCEL
+        *fmt++ = AV_PIX_FMT_D3D12;
 #endif
 #if CONFIG_HEVC_VAAPI_HWACCEL
         *fmt++ = AV_PIX_FMT_VAAPI;
@@ -3404,16 +3409,8 @@ static int hevc_ref_frame(HEVCFrame *dst, HEVCFrame *src)
         dst->needs_fg = 1;
     }
 
-    dst->tab_mvf_buf = av_buffer_ref(src->tab_mvf_buf);
-    if (!dst->tab_mvf_buf)
-        goto fail;
-    dst->tab_mvf = src->tab_mvf;
-
-    dst->rpl_tab_buf = av_buffer_ref(src->rpl_tab_buf);
-    if (!dst->rpl_tab_buf)
-        goto fail;
-    dst->rpl_tab = src->rpl_tab;
-
+    dst->tab_mvf = ff_refstruct_ref(src->tab_mvf);
+    dst->rpl_tab = ff_refstruct_ref(src->rpl_tab);
     dst->rpl = ff_refstruct_ref(src->rpl);
     dst->nb_rpl_elems = src->nb_rpl_elems;
 
@@ -3426,9 +3423,6 @@ static int hevc_ref_frame(HEVCFrame *dst, HEVCFrame *src)
                           src->hwaccel_picture_private);
 
     return 0;
-fail:
-    ff_hevc_unref_frame(dst, ~0);
-    return AVERROR(ENOMEM);
 }
 
 static av_cold int hevc_decode_free(AVCodecContext *avctx)
@@ -3682,7 +3676,6 @@ static const AVOption options[] = {
 
 static const AVClass hevc_decoder_class = {
     .class_name = "HEVC decoder",
-    .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
 };
@@ -3713,6 +3706,9 @@ const FFCodec ff_hevc_decoder = {
 #endif
 #if CONFIG_HEVC_D3D11VA2_HWACCEL
                                HWACCEL_D3D11VA2(hevc),
+#endif
+#if CONFIG_HEVC_D3D12VA_HWACCEL
+                               HWACCEL_D3D12VA(hevc),
 #endif
 #if CONFIG_HEVC_NVDEC_HWACCEL
                                HWACCEL_NVDEC(hevc),
