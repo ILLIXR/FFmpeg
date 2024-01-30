@@ -143,7 +143,6 @@ pkg_check_modules(libwebp REQUIRED libwebp>=0.2.0)
 pkg_check_modules(xcb REQUIRED xcb>=1.4)
 pkg_check_modules(libxml-2.0 REQUIRED libxml-2.0)
 pkg_check_modules(zimg REQUIRED zimg>=2.7.0)
-pkg_check_modules(OpenCL REQUIRED OpenCL)
 pkg_check_modules(opengl REQUIRED opengl)
 
 find_library(mp3lame_FOUND mp3lame)
@@ -182,7 +181,7 @@ if (NOT yasm_FOUND)
 endif()
 
 # have to manually run configure
-execute_process(COMMAND ./configure --disable-static --enable-shared --enable-libnpp --enable-nonfree --enable-cuda-nvcc --extra-cflags="-I/opt/cuda/include" --extra-ldflags="-L/opt/cuda/lib64" --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdav1d --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpl --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxml2 --enable-libzimg --enable-nvdec --enable-nvenc --enable-opencl --enable-opengl --enable-vulkan --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
+execute_process(COMMAND ./configure --disable-static --enable-shared --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdav1d --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libgsm --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpl --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxml2 --enable-libzimg --enable-nvdec --enable-nvenc --enable-opengl --enable-vulkan --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                 RESULT_VARIABLE PROC_RES
                 )
