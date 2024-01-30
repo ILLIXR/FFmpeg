@@ -1906,6 +1906,7 @@ enum PrepMode {
 static int prepare_frame(AVHWFramesContext *hwfc, FFVkExecPool *ectx,
                          AVVkFrame *frame, enum PrepMode pmode)
 {
+    return 0;
     int err;
     VulkanDevicePriv *p = hwfc->device_ctx->internal->priv;
     FFVulkanFunctions *vk = &p->vkctx.vkfn;
@@ -2836,6 +2837,10 @@ static int vulkan_export_to_cuda(AVHWFramesContext *hwfc,
     CUarray_format cufmt = desc->comp[0].depth > 8 ? CU_AD_FORMAT_UNSIGNED_INT16 :
                                                      CU_AD_FORMAT_UNSIGNED_INT8;
 
+    if (planes == 1 && desc->nb_components > 1) {
+        cufmt = CU_AD_FORMAT_UNSIGNED_INT32;
+    }
+    
     dst_f = (AVVkFrame *)frame->data[0];
     dst_int = dst_f->internal;
 
@@ -2849,7 +2854,7 @@ static int vulkan_export_to_cuda(AVHWFramesContext *hwfc,
                 .offset = 0,
                 .arrayDesc = {
                     .Depth = 0,
-                    .Format = CU_AD_FORMAT_UNSIGNED_INT32,
+                    .Format = cufmt,
                     .NumChannels = 1 + ((planes == 2) && i),
                     .Flags = 0,
                 },
@@ -3623,12 +3628,7 @@ static int vulkan_transfer_data_to_cuda(AVHWFramesContext *hwfc, AVFrame *dst,
 
         cpy.WidthInBytes = w * desc->comp[i].step;
         cpy.Height = h;
-
-        err = CHECK_CU(cu->cuStreamSynchronize(cuda_dev->stream));
-
-        if (err < 0)
-            goto fail;
-
+        
         err = CHECK_CU(cu->cuMemcpy2DAsync(&cpy, cuda_dev->stream));
         if (err < 0)
             goto fail;
