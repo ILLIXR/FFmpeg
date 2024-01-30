@@ -194,7 +194,7 @@ endif()
 # add build target, with both build and install
 add_custom_target(FFMPEG
                   ALL
-                  COMMAND make install -j4
+                  COMMAND make install -j30
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # custom clean command since ffmpeg does not use cmake
