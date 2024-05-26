@@ -3019,10 +3019,6 @@ static int vulkan_transfer_data_from_cuda(AVHWFramesContext *hwfc,
 
     dst_f = (AVVkFrame *)dst->data[0];
 
-    err = prepare_frame(hwfc, &fp->upload_exec, dst_f, PREP_MODE_EXTERNAL_EXPORT);
-    if (err < 0)
-        return err;
-
     err = CHECK_CU(cu->cuCtxPushCurrent(cuda_dev->cuda_ctx));
     if (err < 0)
         return err;
@@ -3085,7 +3081,7 @@ static int vulkan_transfer_data_from_cuda(AVHWFramesContext *hwfc,
 
     av_log(hwfc, AV_LOG_VERBOSE, "Transferred CUDA image to Vulkan!\n");
 
-    return err = prepare_frame(hwfc, &fp->upload_exec, dst_f, PREP_MODE_EXTERNAL_IMPORT);
+    return err;
 
 fail:
     CHECK_CU(cu->cuCtxPopCurrent(&dummy));
