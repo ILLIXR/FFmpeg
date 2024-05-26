@@ -3042,6 +3042,9 @@ static int vulkan_transfer_data_from_cuda(AVHWFramesContext *hwfc,
 
     err = CHECK_CU(cu->cuWaitExternalSemaphoresAsync(dst_int->cu_sem, s_w_par,
                                                      planes, cuda_dev->stream));
+
+    cu->cuStreamSynchronize(cuda_dev->stream);
+
     if (err < 0)
         goto fail;
 
@@ -3069,6 +3072,9 @@ static int vulkan_transfer_data_from_cuda(AVHWFramesContext *hwfc,
 
     err = CHECK_CU(cu->cuSignalExternalSemaphoresAsync(dst_int->cu_sem, s_s_par,
                                                        planes, cuda_dev->stream));
+
+    cu->cuStreamSynchronize(cuda_dev->stream);
+    
     if (err < 0)
         goto fail;
 
