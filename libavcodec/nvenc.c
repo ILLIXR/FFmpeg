@@ -1154,7 +1154,7 @@ static av_cold int nvenc_setup_h264_config(AVCodecContext *avctx)
 
     const AVPixFmtDescriptor *pixdesc = av_pix_fmt_desc_get(ctx->data_pix_fmt);
 
-    if (false && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
+    if (0 && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
         vui->colourMatrix = AVCOL_SPC_BT470BG;
         vui->colourPrimaries = avctx->color_primaries;
         vui->transferCharacteristics = avctx->color_trc;
@@ -1280,7 +1280,7 @@ static av_cold int nvenc_setup_hevc_config(AVCodecContext *avctx)
 
     const AVPixFmtDescriptor *pixdesc = av_pix_fmt_desc_get(ctx->data_pix_fmt);
 
-    if (false && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
+    if (0 && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
         vui->colourMatrix = AVCOL_SPC_BT470BG;
         vui->colourPrimaries = avctx->color_primaries;
         vui->transferCharacteristics = avctx->color_trc;
@@ -1398,7 +1398,7 @@ static av_cold int nvenc_setup_av1_config(AVCodecContext *avctx)
 
     const AVPixFmtDescriptor *pixdesc = av_pix_fmt_desc_get(ctx->data_pix_fmt);
 
-    if (false && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
+    if (0 && (pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
         av1->matrixCoefficients = AVCOL_SPC_BT470BG;
         av1->colorPrimaries = avctx->color_primaries;
         av1->transferCharacteristics = avctx->color_trc;
