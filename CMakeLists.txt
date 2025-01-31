@@ -149,6 +149,7 @@ pkg_check_modules(xcb REQUIRED xcb>=1.4)
 pkg_check_modules(libxml-2.0 REQUIRED libxml-2.0)
 pkg_check_modules(OpenCL REQUIRED OpenCL)
 pkg_check_modules(opengl REQUIRED opengl)
+pkg_check_modules(vulkan REQUIRED vulkan)
 
 find_library(mp3lame_FOUND mp3lame)
 if (NOT mp3lame_FOUND)
