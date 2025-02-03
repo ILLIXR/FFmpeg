@@ -107,12 +107,13 @@ FetchContent_MakeAvailable(ffnvcodec)
     endif()
 endfunction()
 
-# find_package(Vulkan 1.3)
+find_package(Vulkan 1.3.255)
 
-# if (NOT Vulkan_FOUND)
-#     message(STATUS "Checking for Vulkan with pkg-config")
-#     pkg_check_modules(Vulkan REQUIRED vulkan>=1.3)
-# endif()
+if (NOT Vulkan_FOUND)
+    message(STATUS "Checking for Vulkan with pkg-config")
+    pkg_check_modules(Vulkan REQUIRED vulkan>=1.3.255)
+endif()
+
 
 pkg_check_modules(ffnvcodec ffnvcodec>=11.1.5)
 if (NOT ffnvcodec_FOUND)
@@ -149,7 +150,6 @@ pkg_check_modules(xcb REQUIRED xcb>=1.4)
 pkg_check_modules(libxml-2.0 REQUIRED libxml-2.0)
 pkg_check_modules(OpenCL REQUIRED OpenCL)
 pkg_check_modules(opengl REQUIRED opengl)
-pkg_check_modules(Vulkan REQUIRED vulkan>=1.3)
 
 find_library(mp3lame_FOUND mp3lame)
 if (NOT mp3lame_FOUND)
