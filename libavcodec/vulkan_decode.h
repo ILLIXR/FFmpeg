@@ -28,7 +28,6 @@
 typedef struct FFVulkanDecodeProfileData {
     VkVideoDecodeH264ProfileInfoKHR h264_profile;
     VkVideoDecodeH265ProfileInfoKHR h265_profile;
-    VkVideoDecodeAV1ProfileInfoKHR av1_profile;
     VkVideoDecodeUsageInfoKHR usage;
     VkVideoProfileInfoKHR profile;
     VkVideoProfileListInfoKHR profile_list;
@@ -61,7 +60,6 @@ typedef struct FFVulkanDecodeContext {
     int dedicated_dpb; /* Oddity  #1 - separate DPB images */
     int layered_dpb;   /* Madness #1 - layered  DPB images */
     int external_fg;   /* Oddity  #2 - hardware can't apply film grain */
-    uint32_t frame_id_alloc_mask; /* For AV1 only */
 
     /* Thread-local state below */
     struct HEVCHeaderSet *hevc_headers;
