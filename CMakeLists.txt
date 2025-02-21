@@ -147,9 +147,15 @@ pkg_check_modules(vorbisenc REQUIRED vorbisenc)
 pkg_check_modules(vpx REQUIRED vpx>=1.4.0)
 pkg_check_modules(libwebp REQUIRED libwebp>=0.2.0)
 pkg_check_modules(xcb REQUIRED xcb>=1.4)
+pkg_check_modules(xcb-shm REQUIRED xcb-shm>=1.4)
 pkg_check_modules(libxml-2.0 REQUIRED libxml-2.0)
 pkg_check_modules(OpenCL REQUIRED OpenCL)
 pkg_check_modules(opengl REQUIRED opengl)
+pkg_check_modules(x264 REQUIRED x264)
+pkg_check_modules(x265 REQUIRED x265)
+pkg_check_modules(zimg REQUIRED zimg)
+pkg_check_modules(gmp REQUIRED gmp)
+pkg_check_modules(gmpxx REQUIRED gmpxx)
 
 find_library(mp3lame_FOUND mp3lame)
 if (NOT mp3lame_FOUND)
@@ -182,7 +188,7 @@ if (NOT yasm_FOUND)
 endif()
 
 # have to manually run configure
-execute_process(COMMAND ./configure --disable-static --enable-shared --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxml2 --enable-nvdec --enable-nvenc --enable-opencl --enable-opengl --enable-vulkan --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
+execute_process(COMMAND ./configure --disable-static --enable-shared --disable-stripping --disable-doc --enable-pic --enable-cuda-llvm --enable-lto --enable-fontconfig --enable-gnutls --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libdrm --enable-libfreetype --enable-libfribidi --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libv4l2 --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libxcb --enable-libxcb-shm --enable-libxml2 --enable-nvdec --enable-nvenc --enable-opencl --enable-opengl --enable-vulkan --enable-libx265 --enable-libx264 --enable-gmp --enable-version3 --enable-gpl --enable-libzimg --disable-programs --build-suffix=_illixr --prefix=${CMAKE_INSTALL_PREFIX}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                 RESULT_VARIABLE PROC_RES
                 )
