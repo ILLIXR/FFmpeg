@@ -29,37 +29,39 @@
 //  };
  
  typedef struct AV1VulkanDecodePicture {
-     FFVulkanDecodePicture           vp;
+   //   FFVulkanDecodePicture           vp;
  
-     /* Workaround for a spec issue.
-      *Can be removed once no longer needed, and threading can be enabled. */
-     FFVulkanDecodeContext          *dec;
+   //   /* Workaround for a spec issue.
+   //    *Can be removed once no longer needed, and threading can be enabled. */
+   //   FFVulkanDecodeContext          *dec;
  
-    //  StdVideoAV1MESATile            tiles[MAX_TILES];
-    //  StdVideoAV1MESATileList        tile_list;
-     const uint32_t                *tile_offsets;
+   //  //  StdVideoAV1MESATile            tiles[MAX_TILES];
+   //  //  StdVideoAV1MESATileList        tile_list;
+   //   const uint32_t                *tile_offsets;
  
-     /* Current picture */
-     VkVideoDecodeAV1DpbSlotInfoKHR    vkav1_ref;
-    //  StdVideoAV1KHRFrameHeader         av1_frame_header;
-     VkVideoDecodeAV1PictureInfoKHR    av1_pic_info;
+   //   /* Current picture */
+   //   VkVideoDecodeAV1DpbSlotInfoKHR    vkav1_ref;
+   //  //  StdVideoAV1KHRFrameHeader         av1_frame_header;
+   //   VkVideoDecodeAV1PictureInfoKHR    av1_pic_info;
  
-     /* Picture refs */
-     const AV1Frame                     *ref_src   [AV1_NUM_REF_FRAMES];
-     VkVideoDecodeAV1DpbSlotInfoKHR     vkav1_refs[AV1_NUM_REF_FRAMES];
+   //   /* Picture refs */
+   //   const AV1Frame                     *ref_src   [AV1_NUM_REF_FRAMES];
+   //   VkVideoDecodeAV1DpbSlotInfoKHR     vkav1_refs[AV1_NUM_REF_FRAMES];
  
-     uint8_t frame_id_set;
-     uint8_t frame_id;
+   //   uint8_t frame_id_set;
+   //   uint8_t frame_id;
+   int unused;
  } AV1VulkanDecodePicture;
  
- static int vk_av1_fill_pict(AVCodecContext *avctx, const AV1Frame **ref_src,
-                             VkVideoReferenceSlotInfoKHR *ref_slot,      /* Main structure */
-                             VkVideoPictureResourceInfoKHR *ref,         /* Goes in ^ */
-                             VkVideoDecodeAV1DpbSlotInfoKHR *vkav1_ref, /* Goes in ^ */
-                             const AV1Frame *pic, int is_current, int has_grain,
-                             int dpb_slot_index)
+//  static int vk_av1_fill_pict(AVCodecContext *avctx, const AV1Frame **ref_src,
+//                              VkVideoReferenceSlotInfoKHR *ref_slot,      /* Main structure */
+//                              VkVideoPictureResourceInfoKHR *ref,         /* Goes in ^ */
+//                              VkVideoDecodeAV1DpbSlotInfoKHR *vkav1_ref, /* Goes in ^ */
+//                              const AV1Frame *pic, int is_current, int has_grain,
+//                              int dpb_slot_index)
+ static int vk_av1_fill_pict()
  {
-    // This shouldn't be used
+   // This shouldn't be used
     return -1;
 
     //  FFVulkanDecodeContext *dec = avctx->internal->hwaccel_priv_data;
@@ -105,7 +107,8 @@
     //  return 0;
  }
  
- static int vk_av1_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+//  static int vk_av1_create_params(AVCodecContext *avctx, AVBufferRef **buf)
+ static int vk_av1_create_params()
  {
     // This shouldn't be used
     return -1;
@@ -198,9 +201,10 @@
     //  return 0;
  }
  
- static int vk_av1_start_frame(AVCodecContext          *avctx,
-                               av_unused const uint8_t *buffer,
-                               av_unused uint32_t       size)
+//  static int vk_av1_start_frame(AVCodecContext          *avctx,
+//                                av_unused const uint8_t *buffer,
+//                                av_unused uint32_t       size)
+ static int vk_av1_start_frame()
  {
     // This should not be used.
     return -1;
@@ -479,9 +483,10 @@
     //  return 0;
  }
  
- static int vk_av1_decode_slice(AVCodecContext *avctx,
-                                const uint8_t  *data,
-                                uint32_t        size)
+//  static int vk_av1_decode_slice(AVCodecContext *avctx,
+//                                 const uint8_t  *data,
+//                                 uint32_t        size)
+ static int vk_av1_decode_slice()
  {
     // This should not be used
     return -1;
@@ -515,7 +520,8 @@
     //  return 0;
  }
  
- static int vk_av1_end_frame(AVCodecContext *avctx)
+//  static int vk_av1_end_frame(AVCodecContext *avctx)
+ static int vk_av1_end_frame()
  {
     // This should not be used
     return -1;
@@ -551,7 +557,8 @@
     //  return ff_vk_decode_frame(avctx, pic->f, vp, rav, rvp);
  }
  
- static void vk_av1_free_frame_priv(FFRefStructOpaque _hwctx, void *data)
+//  static void vk_av1_free_frame_priv(FFRefStructOpaque _hwctx, void *data)
+ static void vk_av1_free_frame_priv()
  {
     // This should not be used
     return;
