@@ -23,10 +23,10 @@
  /* Maximum number of tiles specified by any defined level */
  #define MAX_TILES 256
  
- const VkExtensionProperties ff_vk_dec_av1_ext = {
-     .extensionName = VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME,
-     .specVersion   = VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION,
- };
+//  const VkExtensionProperties ff_vk_dec_av1_ext = {
+//      .extensionName = VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME,
+//      .specVersion   = VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION,
+//  };
  
  typedef struct AV1VulkanDecodePicture {
      FFVulkanDecodePicture           vp;
