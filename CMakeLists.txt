@@ -203,6 +203,41 @@ add_custom_target(FFMPEG
                   COMMAND make install -j${BUILD_PARALLEL_LEVEL}
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(FINALIZE_INSTALL "#!/usr/bin/env sh
+
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libavcodec_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libavcodec ${CMAKE_INSTALL_PREFIX}/include/libavcodec_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libavdevice_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libavdevice ${CMAKE_INSTALL_PREFIX}/include/libavdevice_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libavfilter_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libavfilter ${CMAKE_INSTALL_PREFIX}/include/libavfilter_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libavformat_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libavformat ${CMAKE_INSTALL_PREFIX}/include/libavformat_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libavutil_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libavutil ${CMAKE_INSTALL_PREFIX}/include/libavutil_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libswresample_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libswresample ${CMAKE_INSTALL_PREFIX}/include/libswresample_illixr
+rm -rf ${CMAKE_INSTALL_PREFIX}/include/libswscale_illixr/
+mv ${CMAKE_INSTALL_PREFIX}/include/libswscale ${CMAKE_INSTALL_PREFIX}/include/libswscale_illixr
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libavcodec\\//\\\"libavcodec_illixr\\//g' {} \\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libavformat\\//\\\"libavformat_illixr\\//g' {} \\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libavdevice\\//\\\"libavdevice_illixr\\//g' {} \\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libavfilter\\//\\\"libavfilter_illixr\\//g' {} \\\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libavutil\\//\\\"libavutil_illixr\\//g' {} \\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libswresample\\//\\\"libswresample_illixr\\//g' {} \\\;
+find ${CMAKE_INSTALL_PREFIX}/include -type f -exec sed -i 's/\\\"libswscale\\//\\\"libswscale_illixr\\//g' {} \\\;
+")
+
+FILE(WRITE ${CMAKE_BINARY_DIR}/finalize_install.sh ${FINALIZE_INSTALL})
+FILE(CHMOD ${CMAKE_BINARY_DIR}/finalize_install.sh PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE)
+
+add_custom_target(do_install
+                  ALL
+                  COMMAND ${CMAKE_BINARY_DIR}/finalize_install.sh
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_dependencies(do_install FFMPEG)
+
 # custom clean command since ffmpeg does not use cmake
 add_custom_target(do_clean
                   COMMAND make clean
