@@ -163,7 +163,7 @@ if (NOT mp3lame_FOUND)
 endif()
 
 # have to loop over versions because of the way cuda_rt libraries are named
-foreach (VMAJOR RANGE 11 12)
+foreach (VMAJOR RANGE 12 13)
     foreach (VMINOR RANGE 9)
         set(VER_STR "cudart-${VMAJOR}.${VMINOR}")
         pkg_check_modules(cuda-rt QUIET ${VER_STR})
